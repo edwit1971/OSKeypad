@@ -17,7 +17,7 @@ from kivy.uix.textinput import TextInput
 class T_Class(TextInput):
     ############################################
     # Static Class Variables
-    csOSKeypad = OSKeypad()
+    scOSKeypad = OSKeypad()
     ################################################
     def __init__(self, **kwargs):
         # Button Events:  on_press  on_release
@@ -32,34 +32,34 @@ class T_Class(TextInput):
     def callback_Touched(self, instance, touch):
         # Scan Through All Child Widgets to see which one was Touched
         mStr = ''
-        for child in LayoutsApp.csParent.children:
+        for child in LayoutsApp.scParent.children:
             if(child.collide_point(touch.x, touch.y)):
                 mStr = child.coUID
                 child.coUID_Holder = mStr
                 # Display the Keypad if it's not already displayed
-                if(OSKeypad.csIsKeypadDisplayed == False):
-                    OSKeypad.csIsKeypadDisplayed = True
+                if(OSKeypad.scIsKeypadDisplayed == False):
+                    OSKeypad.scIsKeypadDisplayed = True
                     #########################################
                     # create an object of class OSCalculator
                     # and set the FloatLayout property so
                     # we can add Buttons and add other
                     # Widgets inside the Window
-                    child.csOSKeypad = T_Class.csOSKeypad
-                    child.csOSKeypad.Set_OSKDisplay(self.get_parent_window(),\
-                                                   LayoutsApp.csChildLayout,\
+                    child.scOSKeypad = T_Class.scOSKeypad
+                    child.scOSKeypad.Set_OSKDisplay(self.get_parent_window(),\
+                                                   LayoutsApp.scChildLayout,\
                                                    Window, child.x, child.y)
-                    child.csOSKeypad.Display_OSKeypad()
-                    child.csOSKeypad.Set_TextDisplay(child)
+                    child.scOSKeypad.Display_OSKeypad()
+                    child.scOSKeypad.Set_TextDisplay(child)
                     #########################################
                 break
         return
     ################################################
     def callback_Validate(self, value):
-        for child in LayoutsApp.csParent.children:
-            if(child.coUID == child.coUID_Holder):
-                OSKeypad.csIsKeypadDisplayed = False
-                child.csOSKeypad.Disappear_OSKeypad()
-                child.get_parent_window().remove_widget(LayoutsApp.csChildLayout)
+        T_Class.scOSKeypad.scTextDisplay.cancel_selection()
+        T_Class.scOSKeypad.scTextDisplay.text_validate_unfocus = True
+        OSKeypad.scIsKeypadDisplayed = False
+        T_Class.scOSKeypad.Disappear_OSKeypad()
+        self.get_parent_window().remove_widget(LayoutsApp.scChildLayout)
         return
     ################################################
     
@@ -68,8 +68,8 @@ class T_Class(TextInput):
 class LayoutsApp(App):
     #############################################
     # Static Class Variables
-    csParent = Widget()
-    csChildLayout  = RelativeLayout()
+    scParent = Widget()
+    scChildLayout  = RelativeLayout()
     #############################################
     def __init__(self, **kwargs):
         # Button Events:  on_press  on_release
@@ -104,7 +104,7 @@ class LayoutsApp(App):
         T1.font_size = int(ftmp)
         T1.multiline = False
         T1.readonly = True
-        LayoutsApp.csParent.add_widget(T1)
+        LayoutsApp.scParent.add_widget(T1)
         #########################################
         T2 = T_Class()
         T2.coUID = 'TInput2'
@@ -119,7 +119,7 @@ class LayoutsApp(App):
         T2.font_size = int(ftmp)
         T2.multiline = False
         T2.readonly = True
-        LayoutsApp.csParent.add_widget(T2)
+        LayoutsApp.scParent.add_widget(T2)
         #########################################
         T3 = T_Class()
         T3.coUID = 'TInput3'
@@ -134,9 +134,9 @@ class LayoutsApp(App):
         T3.font_size = int(ftmp)
         T3.multiline = False
         T3.readonly = True
-        LayoutsApp.csParent.add_widget(T3)
+        LayoutsApp.scParent.add_widget(T3)
         #########################################
-        return LayoutsApp.csParent
+        return LayoutsApp.scParent
     #############################################
     
 ##############################################################
