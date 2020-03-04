@@ -1,6 +1,6 @@
 #############################################################
 # File Name : main.py
-# PhysicsCalc is a General Physics Calculator
+# OSKeypad is a numeric Keypad to use in other programs
 #############################################################
 from Keypad import OSKeypad
 from kivy.app import App
